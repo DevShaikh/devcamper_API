@@ -12,19 +12,14 @@ const errorHandler = (err, req, res, next) => {
 
   // Mongoose ObjectID Error
   if (error.name == "CastError") {
-    const message = `Resource not found with the id of ${err.value}`;
+    const message = `Resource not found!`;
     error = new ErrorResponse(message, 404);
   }
 
   // Mongoose Duplicate Error
   if (error.code == 11000) {
-    const resourceWithSameName = `Resource is already exist with the name of ${error.keyValue.name}`;
-    const resourceWithSameEmail = `Resource is already exist with the email of ${error.keyValue.email}`;
-    if (error.keyValue.name) {
-      error = new ErrorResponse(resourceWithSameName, 404);
-    } else {
-      error = new ErrorResponse(resourceWithSameEmail, 404);
-    }
+    const duplicateResource = `Duplicate field value entered`;
+    error = new ErrorResponse(duplicateResource, 404);
   }
 
   // Mongoose Empty Fields Error
